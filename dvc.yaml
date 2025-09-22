@@ -1,0 +1,11 @@
+stages:
+  prepare:
+    cmd: prepare.seed,prepare.split src/prepare.py -d data/data.xml 
+      data/prepared python src/prepare.py data/data.xml
+  featurize:
+    cmd: featurize.max_features,featurize.ngrams src/featurization.py -d 
+      data/prepared data/features src/featurization.py data/prepared 
+      data/features
+  train:
+    cmd: train.seed,train.n_est,train.min_split src/train.py -d data/features 
+      model.pkl src/train.py data/features model.pkl
