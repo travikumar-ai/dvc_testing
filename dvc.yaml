@@ -38,11 +38,18 @@ stages:
     - src/evaluate.py
     outs:
     - eval
+  live-example:
+    cmd: python src/dvc_liv.py ${params.live-example.epochs}
+    deps:
+    - src/dvc_liv.py
+    - live-example.epochs
+    outs:
+    - dvclive
 metrics:
 - eval/metrics.json
 - dvclive/metrics.json
 plots:
-- eval/plots/importance.png:
+- eval/plots/images/importance.png:
 - eval/plots/sklearn/roc/train.json:
     template: simple
     x: fpr
@@ -88,4 +95,5 @@ plots:
 - dvclive/plots/metrics:
     x: step
 params:
+- params.yaml
 - dvclive/params.yaml

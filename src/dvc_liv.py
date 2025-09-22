@@ -8,9 +8,9 @@ if len(sys.argv) != 2:
     sys.stderr.write(f"\tpython {sys.argv[0]} <epochs>\n")
     sys.exit(1)
 
+
 with Live(save_dvc_exp=True) as live:
     epochs = int(sys.argv[1])
-    live.log_param("epochs", epochs)
     for epoch in range(epochs):
         live.log_metric("train/accuracy", epoch + random.random())
         live.log_metric("train/loss", epochs - epoch - random.random())
