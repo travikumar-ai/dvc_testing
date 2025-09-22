@@ -1,4 +1,13 @@
-.venv
-.venv/
+# DVC files
+.dvc/cache
+.dvc/tmp
+.dvc/config.local
+
+# DVC outputs
+/data/prepared
+/data/features
 /model.pkl
 /eval
+
+# Raw data tracked by DVC
+/data/data.xml
