@@ -9,8 +9,8 @@ stages:
       size: 14445097
     - path: src/prepare.py
       hash: md5
-      md5: b1e0bfecdd742214af0ae83e4fe19a00
-      size: 2144
+      md5: cdc09b23d72d0ad17713f200299a38c5
+      size: 2216
     params:
       params.yaml:
         prepare.seed: 20170428
@@ -65,3 +65,25 @@ stages:
       hash: md5
       md5: faa5e787e816ee60a91abaa035dc7a71
       size: 1855042
+  evaluate:
+    cmd: python src/evaluate.py model.pkl data/features
+    deps:
+    - path: data/features
+      hash: md5
+      md5: 74642e90419272839886d8e51f730b44.dir
+      size: 1556292
+      nfiles: 2
+    - path: model.pkl
+      hash: md5
+      md5: faa5e787e816ee60a91abaa035dc7a71
+      size: 1855042
+    - path: src/evaluate.py
+      hash: md5
+      md5: 125a241720fa69befdb419a3b75e5bfb
+      size: 3300
+    outs:
+    - path: eval
+      hash: md5
+      md5: 330ccb77dd1c1b53b3de6405d0507e60.dir
+      size: 1403022
+      nfiles: 8

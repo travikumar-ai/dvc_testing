@@ -7,19 +7,19 @@ import xml.etree.ElementTree
 import yaml
 
 
-def process_posts(input_lines, fd_out_train, fd_out_test, target_tag, split):
+def process_posts(fd_in, fd_out_train, fd_out_test, target_tag, split):
     """
     Process the input lines and write the output to the output files.
 
     Args:
-        input_lines (list): List of input lines.
+        fd_in (file): Input file object.
         fd_out_train (file): Output file for the training data set.
         fd_out_test (file): Output file for the test data set.
         target_tag (str): Target tag.
         split (float): Test data set split ratio.
     """
     num = 1
-    for line in input_lines:
+    for line in fd_in:
         try:
             fd_out = fd_out_train if random.random() > split else fd_out_test
             attr = xml.etree.ElementTree.fromstring(line).attrib
@@ -46,7 +46,7 @@ def main():
         sys.exit(1)
 
     # Test data set split ratio
-    split = params["split"]
+    split = params["split"] 
     random.seed(params["seed"])
 
     input = sys.argv[1]
@@ -55,23 +55,17 @@ def main():
 
     os.makedirs(os.path.join("data", "prepared"), exist_ok=True)
 
-    input_lines = []
-    with open(input) as fd_in:
-        input_lines = fd_in.readlines()
+    with open(input, encoding="utf-8") as fd_in, open(
+        output_train, "w", encoding="utf-8"
+    ) as fd_out_train, open(output_test, "w", encoding="utf-8") as fd_out_test:
 
-    fd_out_train = open(output_train, "w", encoding="utf-8")
-    fd_out_test = open(output_test, "w", encoding="utf-8")
-
-    process_posts(
-        input_lines=input_lines,
-        fd_out_train=fd_out_train,
-        fd_out_test=fd_out_test,
-        target_tag="<r>",
-        split=split,
-    )
-
-    fd_out_train.close()
-    fd_out_test.close()
+        process_posts(
+            fd_in=fd_in,
+            fd_out_train=fd_out_train,
+            fd_out_test=fd_out_test,
+            target_tag="<r>",
+            split=split,
+        )
 
 
 if __name__ == "__main__":
